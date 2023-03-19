@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+tsv = `./chart`
+split = tsv.split("\n")
+header = split[0]
+puts <<~TOP
+  <table>
+    <thead>
+      <tr>
+      #{header.split("\t").map { |x| "<th>#{x}</th>" }.join}
+      </tr>
+    </thead>
+    <tbody>
+TOP
+
+split[1..].each do |line|
+  print '    <tr>'
+  print '<td>'
+  print line
+    .gsub(%r{/}, '&frasl;')
+    .gsub(/ /, '&VeryThinSpace;')
+    .gsub(/\t/, '</td><td>')
+  print '</td>'
+  print '</tr>'
+  print "\n"
+end
+
+puts <<~BOTTOM
+  </tbody>
+  </table>
+BOTTOM
