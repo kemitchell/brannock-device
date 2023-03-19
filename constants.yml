@@ -1,0 +1,44 @@
+length:
+
+  gradation:
+    numerator: 1
+    denominator: 3
+
+  offset:
+    inches: 7
+    numerator: 1
+    denominator: 3
+
+  allowance:
+    # 2 barleycorns
+    numerator: 2
+    denominator: 3
+
+width:
+
+  offset:
+    inches: 1
+    numerator: 13
+    denominator: 16
+
+  gradation:
+
+    within size:
+      numerator: 3
+      denominator: 16
+
+    between sizes:
+      numerator: 1
+      denominator: 8
+
+  names:
+  - AAA
+  - AA
+  - A
+  - B
+  - C
+  - D
+  - E
+  - EE
+  - EEE
+  - EEEE

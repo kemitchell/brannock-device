@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'yaml'
+require 'fractional'
+constants = YAML.load_file 'constants.yml'
+
+def constant_to_rational(data)
+  returned = 0r
+  inches = data['inches']
+  returned += Rational(inches) unless inches.nil?
+  numerator = data['numerator']
+  denominator = data['denominator']
+  returned += Rational(numerator, denominator)
+  returned
+end
+
+length_offset = constant_to_rational(constants['length']['offset'])
+length_gradation = constant_to_rational(constants['length']['gradation'])
+length_allowance = constant_to_rational(constants['length']['allowance'])
+
+width_names = constants['width']['names']
+width_offset = constant_to_rational(constants['width']['offset'])
+width_gradation_between = constant_to_rational(constants['width']['gradation']['between sizes'])
+width_gradation_within = constant_to_rational(constants['width']['gradation']['within size'])
+
+def format_rational(rational)
+  "#{Fractional.new(rational).to_s(mixed_fraction: true)}″"
+end
+
+sizes = []
+counter = 0.5r
+while counter <= 13
+  counter += 0.5r
+
+  foot_length = length_offset + (counter * length_gradation)
+  last_length = foot_length + length_allowance
+
+  size_width_offset = width_offset + (counter * width_gradation_between)
+  size_widths = []
+  width_names.each_with_index do |_, i|
+    width = size_width_offset + (i * width_gradation_within)
+    size_widths << format_rational(width)
+  end
+  sizes << {
+    size: format_rational(counter),
+    foot: format_rational(foot_length),
+    last: format_rational(last_length),
+    widths: size_widths
+  }
+end
+
+print "Size\tFoot\tLast"
+width_names.each { |name| print "\t#{name}" }
+print "\n"
+
+sizes.each do |size|
+  print "#{size[:size]}\t#{size[:foot]}\t#{size[:last]}"
+  size[:widths].each do |width|
+    print "\t#{width}"
+  end
+  print "\n"
+end
