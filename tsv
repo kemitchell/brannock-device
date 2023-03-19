@@ -10,11 +10,14 @@ constants = YAML.load_file 'constants.yml'
 
 def constant_to_rational(data)
   returned = 0r
+
   inches = data['inches']
   returned += Rational(inches) unless inches.nil?
+
   numerator = data['numerator']
   denominator = data['denominator']
   returned += Rational(numerator, denominator) unless numerator.nil?
+
   returned
 end
 
