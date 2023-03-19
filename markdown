@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 tsv = `./tsv`
-column_width = 9
+column_width = 11
 
 split = tsv.split("\n")
 header = split[0]

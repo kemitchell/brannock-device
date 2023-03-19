@@ -1,19 +1,36 @@
 length:
 
-  gradation:
-    # 1 barleycorn
-    numerator: 1
-    denominator: 3
+  foot:
 
-  offset:
-    inches: 7
-    numerator: 1
-    denominator: 3
+    gradation:
+      # 1 barleycorn
+      numerator: 1
+      denominator: 3
+
+    offset:
+      inches: 7
+      numerator: 1
+      denominator: 3
 
   allowance:
     # 2 barleycorns
     numerator: 2
     denominator: 3
+
+  arch:
+
+    gradation:
+      # ≈ 5.6 mm
+      numerator: 14
+      denominator: 64
+
+    reduction: 7
+
+    offset:
+      # ≈ 173.5 mm
+      inches: 6
+      numerator: 40
+      denominator: 48
 
 width:
 

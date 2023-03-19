@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+tsv = `./tsv`
+split = tsv.split("\n")
+@rows = split[1..].map { |line| line.split("\t") }
+
+def find_row(size_string)
+  @rows.find { |row| row[0] == size_string }
+end
+
+def compare(length_size, arch_size)
+  length_row = find_row(length_size)
+  arch_row = find_row(arch_size)
+  puts "#{length_size.ljust(6)} Length = #{length_row[1].ljust(6)}"
+  puts "#{arch_size.ljust(6)} Arch   = #{arch_row[3].ljust(6)}"
+  puts
+end
+
+compare('2', '12')
+compare('3', '13 1/2')
+compare('4', '15')
