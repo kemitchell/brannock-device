@@ -51,6 +51,7 @@ while counter <= 25
     width = size_width_offset + (i * width_gradation_within)
     size_widths << format_rational(width)
   end
+
   rows << {
     size: format_rational(counter),
     foot: format_rational(foot_length),
