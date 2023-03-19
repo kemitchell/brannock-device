@@ -30,14 +30,15 @@ width_offset = constant_to_rational(constants['width']['offset'])
 width_gradation_between = constant_to_rational(constants['width']['gradation']['between sizes'])
 width_gradation_within = constant_to_rational(constants['width']['gradation']['within size'])
 
-def format_rational(rational)
-  Fractional.new(rational).to_s(mixed_fraction: true)
-end
-
 # Calculate Lengths and Widths
 
 rows = []
 counter = 0.5r
+
+def format_rational(rational)
+  Fractional.new(rational).to_s(mixed_fraction: true)
+end
+
 while counter <= 25
   counter += 0.5r
 
