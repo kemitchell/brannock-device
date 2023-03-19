@@ -3,6 +3,7 @@
 
 require 'yaml'
 require 'fractional'
+
 constants = YAML.load_file 'constants.yml'
 
 def constant_to_rational(data)
@@ -25,7 +26,7 @@ width_gradation_between = constant_to_rational(constants['width']['gradation']['
 width_gradation_within = constant_to_rational(constants['width']['gradation']['within size'])
 
 def format_rational(rational)
-  "#{Fractional.new(rational).to_s(mixed_fraction: true)}″"
+  Fractional.new(rational).to_s(mixed_fraction: true)
 end
 
 sizes = []
@@ -49,6 +50,24 @@ while counter <= 13
     widths: size_widths
   }
 end
+
+# Tests
+
+def assert(got, expected, mesage)
+  raise "#{mesage}: got #{got}, expected #{expected}" unless got == expected
+end
+
+size2 = sizes.find { |size| size[:size] == '2' }
+assert(size2[:foot], '8', 'size 2 foot')
+assert(size2[:widths].first, '2 1/16', 'size 2 AAA')
+assert(size2[:widths].last, '3 3/4', 'size 2 EEEE')
+
+size13 = sizes.find { |size| size[:size] == '13' }
+assert(size13[:foot], '11 2/3', 'size 13 foot')
+assert(size13[:widths].first, '3 7/16', 'size 13 AAA')
+assert(size13[:widths].last, '5 1/8', 'size 13 EEEE')
+
+# TSV Output
 
 print "Size\tFoot\tLast"
 width_names.each { |name| print "\t#{name}" }
