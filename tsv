@@ -4,6 +4,8 @@
 require 'yaml'
 require 'fractional'
 
+# Load Constants
+
 constants = YAML.load_file 'constants.yml'
 
 def constant_to_rational(data)
@@ -29,7 +31,9 @@ def format_rational(rational)
   Fractional.new(rational).to_s(mixed_fraction: true)
 end
 
-sizes = []
+# Calculate Lengths and Widths
+
+rows = []
 counter = 0.5r
 while counter <= 25
   counter += 0.5r
@@ -43,7 +47,7 @@ while counter <= 25
     width = size_width_offset + (i * width_gradation_within)
     size_widths << format_rational(width)
   end
-  sizes << {
+  rows << {
     size: format_rational(counter),
     foot: format_rational(foot_length),
     last: format_rational(last_length),
@@ -57,12 +61,12 @@ def assert(got, expected, mesage)
   raise "#{mesage}: got #{got}, expected #{expected}" unless got == expected
 end
 
-size2 = sizes.find { |size| size[:size] == '2' }
+size2 = rows.find { |size| size[:size] == '2' }
 assert(size2[:foot], '8', 'size 2 foot')
 assert(size2[:widths].first, '2 1/16', 'size 2 AAA')
 assert(size2[:widths].last, '3 3/4', 'size 2 EEEE')
 
-size13 = sizes.find { |size| size[:size] == '13' }
+size13 = rows.find { |size| size[:size] == '13' }
 assert(size13[:foot], '11 2/3', 'size 13 foot')
 assert(size13[:widths].first, '3 7/16', 'size 13 AAA')
 assert(size13[:widths].last, '5 1/8', 'size 13 EEEE')
@@ -73,7 +77,7 @@ print "Size\tFoot\tLast"
 width_names.each { |name| print "\t#{name}" }
 print "\n"
 
-sizes.each do |size|
+rows.each do |size|
   print "#{size[:size]}\t#{size[:foot]}\t#{size[:last]}"
   size[:widths].each do |width|
     print "\t#{width}"
