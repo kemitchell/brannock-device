@@ -31,14 +31,4 @@ width:
       numerator: 1
       denominator: 8
 
-  names:
-  - AAA
-  - AA
-  - A
-  - B
-  - C
-  - D
-  - E
-  - EE
-  - EEE
-  - EEEE
+  names: [AAA, AA, A, B, C, D, E, EE, EEE, EEEE]
