@@ -15,7 +15,8 @@ puts <<~TOP
 TOP
 
 split[1..].each do |line|
-  print '    <tr>'
+  id = line.split("\t")[0].sub(' 1/2', '.5')
+  print "    <tr id=\"#{id}\">"
   print '<td>'
   print line
     .gsub(%r{/}, '&frasl;')
