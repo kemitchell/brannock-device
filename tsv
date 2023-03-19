@@ -14,7 +14,7 @@ def constant_to_rational(data)
   returned += Rational(inches) unless inches.nil?
   numerator = data['numerator']
   denominator = data['denominator']
-  returned += Rational(numerator, denominator)
+  returned += Rational(numerator, denominator) unless numerator.nil?
   returned
 end
 
