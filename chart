@@ -31,7 +31,7 @@ end
 
 sizes = []
 counter = 0.5r
-while counter <= 13
+while counter <= 25
   counter += 0.5r
 
   foot_length = length_offset + (counter * length_gradation)
