@@ -20,17 +20,13 @@ length:
   arch:
 
     gradation:
-      # ≈ 5.6 mm
-      numerator: 14
-      denominator: 64
-
-    reduction: 7
+      numerator: 11
+      denominator: 50
 
     offset:
-      # ≈ 173.5 mm
-      inches: 6
-      numerator: 40
-      denominator: 48
+      inches: 5
+      numerator: 18
+      denominator: 50
 
 width:
 

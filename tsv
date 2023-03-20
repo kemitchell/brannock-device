@@ -28,7 +28,6 @@ foot_length_allowance = constant_to_rational(constants['length']['allowance'])
 
 arch_length_offset = constant_to_rational(constants['length']['arch']['offset'])
 arch_length_gradation = constant_to_rational(constants['length']['arch']['gradation'])
-arch_length_reduction = constants['length']['arch']['reduction']
 
 width_names = constants['width']['names']
 width_offset = constant_to_rational(constants['width']['offset'])
@@ -48,7 +47,8 @@ while counter <= 25
   counter += 0.5r
 
   foot_length = foot_length_offset + (counter * foot_length_gradation)
-  arch_length = arch_length_offset + ((counter - arch_length_reduction) * arch_length_gradation)
+  arch_length = arch_length_offset + (counter * arch_length_gradation)
+  arch_length_decimal = format('%.2f', arch_length)
   last_length = foot_length + foot_length_allowance
 
   size_width_offset = width_offset + (counter * width_gradation_between)
@@ -63,6 +63,7 @@ while counter <= 25
     foot: format_rational(foot_length),
     last: format_rational(last_length),
     arch: format_rational(arch_length),
+    arch_decimal: arch_length_decimal.to_s,
     widths: size_widths
   }
 end
@@ -89,12 +90,12 @@ assert(size13[:widths].last, '5 1/8', 'size 13 EEEE')
 
 # TSV Output
 
-print "Size\tFoot\tLast\tArch"
+print "Size\tFoot\tLast\tArch\tArch (Approximate)"
 width_names.each { |name| print "\t#{name}" }
 print "\n"
 
 @rows.each do |size|
-  print "#{size[:size]}\t#{size[:foot]}\t#{size[:last]}\t#{size[:arch]}"
+  print "#{size[:size]}\t#{size[:foot]}\t#{size[:last]}\t#{size[:arch]}\t#{size[:arch_decimal].ljust(5)}"
   size[:widths].each do |width|
     print "\t#{width}"
   end
