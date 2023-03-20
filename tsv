@@ -37,13 +37,13 @@ width_gradation_within = constant_to_rational(constants['width']['gradation']['w
 # Calculate Lengths and Widths
 
 @rows = []
-counter = 0.5r
+counter = 5.0r
 
 def format_rational(rational)
   Fractional.new(rational).to_s(mixed_fraction: true)
 end
 
-while counter <= 25
+while counter <= 14.0r
   counter += 0.5r
 
   foot_length = foot_length_offset + (counter * foot_length_gradation)
@@ -78,12 +78,6 @@ end
 def find_row(size)
   @rows.find { |x| x[:size] == size }
 end
-
-size2 = find_row('2')
-assert(size2[:foot], '8', 'size 2 foot')
-assert(size2[:widths][1], '2 1/16', 'size 2 AAA')
-assert(size2[:widths].last, '3 3/4', 'size 2 EEEE')
-assert(size2[:arch_decimal], '5.80', 'size 2 Arch')
 
 size13 = find_row('13')
 assert(size13[:foot], '11 2/3', 'size 13 foot')
