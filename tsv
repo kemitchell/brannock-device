@@ -60,6 +60,7 @@ while counter <= 25
 
   @rows << {
     size: format_rational(counter),
+    nicks: format_rational(counter - 1/2r),
     foot: format_rational(foot_length),
     last: format_rational(last_length),
     arch: format_rational(arch_length),
@@ -92,12 +93,12 @@ assert(size13[:arch_decimal], '8.22', 'size 13 EEEE')
 
 # TSV Output
 
-print "Size\tFoot\tLast\tArch\tArch (Approximate)"
+print "Brannock\tNicks\tFoot\tLast\tArch\tArch"
 width_names.each { |name| print "\t#{name}" }
 print "\n"
 
 @rows.each do |size|
-  print "#{size[:size]}\t#{size[:foot]}\t#{size[:last]}\t#{size[:arch]}\t#{size[:arch_decimal].ljust(5)}"
+  print "#{size[:size]}\t#{size[:nicks]}\t#{size[:foot]}\t#{size[:last]}\t#{size[:arch]}\t#{size[:arch_decimal].ljust(5)}"
   size[:widths].each do |width|
     print "\t#{width}"
   end
