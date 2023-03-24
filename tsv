@@ -92,7 +92,7 @@ assert(size13[:arch_decimal], '8.22', 'size 13 EEEE')
 
 # TSV Output
 
-print "Size\tFoot\tLast\tArch\tArch (Approximate)"
+print "Size\tFoot\tLast\tArch\tArch"
 width_names.each { |name| print "\t#{name}" }
 print "\n"
 

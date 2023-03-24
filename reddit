@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+tsv = `./tsv`
+
+split = tsv.split("\n")
+header = split[0].split("\t")
+rows = split[1..].map do |line|
+  line.split("\t").each_with_index.map do |cell, column|
+    suffix = column > 0 ? '″' : ''
+    cell
+      # &frasl;
+      .gsub(%r{/}, "\u2044")
+      # narrow, no-break space
+      .gsub(/ /, "\u202f") + suffix
+  end
+end
+
+column_widths = header.map(&:length)
+rows.each do |row|
+  row.each_with_index do |cell, column|
+    width = cell.length + 2
+    column_widths[column] = width if width > column_widths[column]
+  end
+end
+
+print '|'
+print header.each_with_index.map { |x, column| " #{x} ".ljust(column_widths[column]) }.join('|')
+print "|\n"
+
+print '|'
+print header.each_with_index.map { |x, column| ('-' * (x.length + 2)).ljust(column_widths[column], '-') }.join('|')
+print "|\n"
+
+rows.each do |row|
+  print '|'
+  print row
+    .each_with_index
+    .map { |cell, column| " #{cell}".ljust(column_widths[column])}
+    .join('|')
+  print "|\n"
+end
