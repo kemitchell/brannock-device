@@ -18,10 +18,17 @@ split[1..].each do |line|
   id = line.split("\t")[0].sub(' 1/2', '.5')
   print "    <tr id=\"#{id}\">"
   print '<td>'
-  print line
-    .gsub(%r{/}, '&frasl;')
-    .gsub(/ /, '&nnbsp;')
-    .gsub(/\t/, '</td><td>')
+  line
+    .split("\t")
+    .each_with_index
+    .each do |cell, column|
+      print cell
+        .gsub(%r{/}, '&frasl;')
+        .gsub(/ /, '&#8239;')
+        .gsub(/\t/, '</td><td>')
+      print '&Prime;' if column > 0
+      print '</td><td>'
+    end
   print '</td>'
   print '</tr>'
   print "\n"
