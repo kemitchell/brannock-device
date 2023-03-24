@@ -20,7 +20,7 @@ split[1..].each do |line|
   print '<td>'
   print line
     .gsub(%r{/}, '&frasl;')
-    .gsub(/ /, '&VeryThinSpace;')
+    .gsub(/ /, '&nnbsp;')
     .gsub(/\t/, '</td><td>')
   print '</td>'
   print '</tr>'
