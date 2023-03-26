@@ -82,12 +82,12 @@ end
 
 # TSV Output
 
-print "Size\tFoot\tFoot\tLast\tArch\tArch\tArch"
+print "Size\tFoot\tFoot\tArch\tArch\tArch"
 width_names.each { |name| print "\t#{name}" * 2 }
 print "\n"
 
 @rows.each do |size|
-  print [size[:size], size[:foot], size[:foot_cm], size[:last], size[:arch], size[:arch_decimal], size[:arch_cm]].join("\t")
+  print [size[:size], size[:foot], size[:foot_cm], size[:arch], size[:arch_decimal], size[:arch_cm]].join("\t")
   size[:widths].each do |width|
     print "\t#{width[:in]}\t#{width[:cm]}"
   end
