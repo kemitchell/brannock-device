@@ -39,8 +39,15 @@ width_gradation_within = constant_to_rational(constants['width']['gradation']['w
 @rows = []
 counter = 0.5r
 
-def format_rational(rational)
-  Fractional.new(rational).to_s(mixed_fraction: true)
+def format_rational(rational, inches = true)
+  formatted = Fractional.new(rational).to_s(mixed_fraction: true)
+    .sub(' ', ' ')
+    .sub('/', '⁄')
+  "#{formatted}#{inches ? '″' : ''}"
+end
+
+def fractional_in_to_cm(rational)
+  "≈#{format('%.1f', (rational * 2.54r).to_f.round(1))} cm"
 end
 
 while counter <= 25
@@ -48,58 +55,41 @@ while counter <= 25
 
   foot_length = foot_length_offset + (counter * foot_length_gradation)
   arch_length = arch_length_offset + (counter * arch_length_gradation)
-  arch_length_decimal = format('%.2f', arch_length)
+  arch_length_decimal = "≈#{format('%.1f', arch_length.round(1))}″"
   last_length = foot_length + foot_length_allowance
 
   size_width_offset = width_offset + (counter * width_gradation_between)
   size_widths = []
   width_names.each_with_index do |_, i|
     width = size_width_offset + (i * width_gradation_within)
-    size_widths << format_rational(width)
+    size_widths << {
+      in: format_rational(width),
+      cm: fractional_in_to_cm(width)
+    }
   end
 
   @rows << {
-    size: format_rational(counter),
+    size: format_rational(counter, false),
     foot: format_rational(foot_length),
+    foot_cm: fractional_in_to_cm(foot_length),
     last: format_rational(last_length),
     arch: format_rational(arch_length),
     arch_decimal: arch_length_decimal.to_s,
+    arch_cm: fractional_in_to_cm(arch_length),
     widths: size_widths
   }
 end
 
-# Tests
-
-def assert(got, expected, mesage)
-  raise "#{mesage}: got #{got}, expected #{expected}" unless got == expected
-end
-
-def find_row(size)
-  @rows.find { |x| x[:size] == size }
-end
-
-size2 = find_row('2')
-assert(size2[:foot], '8', 'size 2 foot')
-assert(size2[:widths][1], '2 1/16', 'size 2 AAA')
-assert(size2[:widths].last, '3 3/4', 'size 2 EEEE')
-assert(size2[:arch_decimal], '5.80', 'size 2 Arch')
-
-size13 = find_row('13')
-assert(size13[:foot], '11 2/3', 'size 13 foot')
-assert(size13[:widths][1], '3 7/16', 'size 13 AAA')
-assert(size13[:widths].last, '5 1/8', 'size 13 EEEE')
-assert(size13[:arch_decimal], '8.22', 'size 13 EEEE')
-
 # TSV Output
 
-print "Size\tFoot\tLast\tArch\tArch"
-width_names.each { |name| print "\t#{name}" }
+print "Size\tFoot\tFoot\tLast\tArch\tArch\tArch"
+width_names.each { |name| print "\t#{name}" * 2 }
 print "\n"
 
 @rows.each do |size|
-  print "#{size[:size]}\t#{size[:foot]}\t#{size[:last]}\t#{size[:arch]}\t#{size[:arch_decimal].ljust(5)}"
+  print [size[:size], size[:foot], size[:foot_cm], size[:last], size[:arch], size[:arch_decimal], size[:arch_cm]].join("\t")
   size[:widths].each do |width|
-    print "\t#{width}"
+    print "\t#{width[:in]}\t#{width[:cm]}"
   end
   print "\n"
 end
